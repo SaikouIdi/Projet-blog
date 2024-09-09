@@ -1,0 +1,18 @@
+{% extends "articles/layout.html" %}
+
+{% load crispy_forms_tags %}
+
+  {% block title %}Ajout-Article{% endblock %}
+  
+  {% block content %}
+
+    <h1>Ajouter vos articles</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <button type="submit" class="btn btn-primary">Publier</button>
+  </form><br><br><br>
+
+{% endblock content %}
+    

@@ -1,0 +1,42 @@
+{% extends "articles/layout.html" %}
+
+{% block title %}Détails-Article{% endblock %}
+
+{% block content %}
+
+<article>
+    <h2>{{ article.title }}</h2>
+    <p>Publié le {{ article.created_at }} par {{ article.author }}</p>
+    {% if article.image %}
+        <img src="{{ article.image.url }}" alt="Image de l'article">
+    {% endif %}
+    <p>{{ article.content }}</p>
+    <p>
+        Catégorie: {{ article.category }} | 
+        Etiquette: 
+        {% for tag in article.tags.all %}
+            {{ tag.name }}
+        {% endfor %}{{ article.tags.name }}
+    </p><br>
+    <a href="{% url 'article_update' article.pk %}" class="btn btn-primary">Modifier</a>
+    <a href="{% url 'article_delete' article.pk %}" class="btn btn-danger">Supprimer</a>
+</article><br><br>
+
+<h3>Commentaires</h3>
+<ul>
+    {% for comment in article.comments.all %}
+            <p><strong>{{ comment.user.username }}</strong> a écrit :</p>
+            <p>{{ comment.content }}</p>
+
+    {% empty %}
+        <p>Il n'y a aucun commentaire pour cet article.</p>
+    {% endfor %}
+</ul>
+
+<h4>Ajouter un commentaire</h4>
+<form method="post">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    <button type="submit">Envoyer</button><br><br>
+</form><br><br>
+{% endblock %}

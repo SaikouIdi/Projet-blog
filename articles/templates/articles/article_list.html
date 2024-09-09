@@ -1,0 +1,37 @@
+{% extends "articles/layout.html" %}
+
+{% block title %}Liste-Article{% endblock %}
+
+{% block content %}
+<h2>Liste des articles</h2>
+<ul>
+    {% for article in articles %}
+        <p><h3>{{ article.title }}</h3></p>
+        <p>Publié le {{ article.created_at }} par {{ article.author }}</p>
+            {% if article.image %}
+                <img src="{{ article.image.url }}" alt="Image de l'article">
+            {% endif %}
+        
+        <p>{{ article.content|truncatewords:30 }}<a href="{% url 'article_detail' article.pk %}">Lire la suite...</a></p> <!-- Affiche un extrait de l'article -->
+
+    {% endfor %}
+</ul>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if articles.has_previous %}
+            <a href="?page=1">&laquo; première</a>
+            <a href="?page={{ articles.previous_page_number }}">précédente</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ articles.number }} sur {{ articles.paginator.num_pages }}.
+        </span>
+
+        {% if articles.has_next %}
+            <a href="?page={{ articles.next_page_number }}">suivante</a>
+            <a href="?page={{ articles.paginator.num_pages }}">dernière &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}

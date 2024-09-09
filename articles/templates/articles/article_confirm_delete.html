@@ -1,0 +1,16 @@
+{% extends "articles/layout.html" %}
+
+{% block title %}Supprimer-Article{% endblock %}
+
+{% block content %}
+
+    <h2>Suppression d'article</h2>
+    <p>Êtes-vous sûr de vouloir supprimer l'article <strong>"{{ article.title }}"</strong> ? Cette action est irréversible.</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Oui, supprimer</button>
+        <a href="{% url 'article_detail' article.pk %}" class="btn btn-danger">Annuler</a>
+    </form>
+
+{% endblock %}

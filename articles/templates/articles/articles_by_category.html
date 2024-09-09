@@ -1,0 +1,16 @@
+{% extends "articles/layout.html" %}
+
+{% block title %}Articles dans {{ category.name }}{% endblock %}
+
+{% block content %}
+  <h1>Articles dans {{ category.name }}</h1>
+  <ul class="list-group">
+    {% for article in articles %}
+      <li class="list-group-item">
+        <a href="{% url 'article_detail' article.pk %}">{{ article.title }}</a>
+      </li>
+    {% empty %}
+      <li class="list-group-item">Aucun article disponible dans cette catégorie.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

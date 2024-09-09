@@ -1,0 +1,68 @@
+{% load static %}
+
+ <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand">
+      <img src="{% static 'images/logo1000TechLeader.JPG' %}" alt="Logo" width="100%" height="50">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'article_list' %}">Articles</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Catégories
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            {% for category in categories %}
+              <li><a class="dropdown-item" href="{% url 'articles_by_category' category.id %}">{{ category.name }}</a></li>
+            {% empty %}
+              <li><a class="dropdown-item" href="#">Aucune catégorie disponible</a></li>
+            {% endfor %}
+          </ul>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'article_create' %}">Créer un article</a>
+        </li>
+        {% endif %}
+      </ul>
+      
+      <form class="d-flex" method="GET" action="">
+        <input class="form-control me-2" type="search" placeholder="Rechercher" aria-label="Search" name="q">
+        <button class="btn btn-outline-success" type="submit">Recherche</button>
+      </form>
+
+      <ul class="navbar-nav ms-auto">
+        {% if user.is_authenticated %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Bienvenue, {{ user.username }}
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="userDropdown">
+            <li><a class="dropdown-item" href="{% url 'profile'  %}">Mon Profil</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li class="nav-item">
+              <form id="logout-form" method="POST" action="{% url 'deconnexion' %}" style="display: none;">
+                {% csrf_token %}
+              </form>
+              <a class="nav-link" href="#" onclick="document.getElementById('logout-form').submit();">Se déconnecter</a>
+            </li>
+          </ul>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'connexion' %}">Se connecter</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'sinscrire' %}">Créer un compte</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
