@@ -18,8 +18,11 @@
             {{ tag.name }}
         {% endfor %}{{ article.tags.name }}
     </p><br>
-    <a href="{% url 'article_update' article.pk %}" class="btn btn-primary">Modifier</a>
-    <a href="{% url 'article_delete' article.pk %}" class="btn btn-danger">Supprimer</a>
+    {% if article.author == request.user %}
+        <a href="{% url 'article_update' article.pk %}" class="btn btn-primary">Modifier</a>
+        <a href="{% url 'article_delete' article.pk %}" class="btn btn-danger">Supprimer</a>
+    {% endif %}
+    
 </article><br><br>
 
 <h3>Commentaires</h3>
